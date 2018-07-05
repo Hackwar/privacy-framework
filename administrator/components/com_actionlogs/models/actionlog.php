@@ -33,7 +33,7 @@ class ActionlogsModelActionlog extends JModelLegacy
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function addLogsToDb($messages, $messageLanguageKey, $context, $userId = null)
+	public function addLog($messages, $messageLanguageKey, $context, $userId = null)
 	{
 		$user   = JFactory::getUser($userId);
 		$db     = $this->getDbo();
