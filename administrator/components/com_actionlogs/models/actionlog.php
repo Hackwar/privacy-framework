@@ -42,7 +42,12 @@ class ActionlogsModelActionlog extends JModelLegacy
 
 		if ($params->get('ip_logging', 0))
 		{
-			$ip = JFactory::getApplication()->input->server->get('REMOTE_ADDR');
+			$ip = JFactory::getApplication()->input->server->get('REMOTE_ADDR', null, 'raw');
+
+			if (!filter_var($ip, FILTER_VALIDATE_IP))
+			{
+				$ip = 'COM_ACTIONLOGS_IP_INVALID';
+			}
 		}
 		else
 		{
