@@ -97,6 +97,7 @@ class ConfigModelApplication extends ConfigModelForm
 	public function save($data)
 	{
 		$app = JFactory::getApplication();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Check that we aren't setting wrong database configuration
 		$options = array(
@@ -395,7 +396,12 @@ class ConfigModelApplication extends ConfigModelForm
 		$this->cleanCache('_system', 1);
 
 		// Write the configuration file.
-		return $this->writeConfigFile($config);
+		$result = $this->writeConfigFile($config);
+
+		// Trigger the after save event.
+		$dispatcher->trigger('onApplicationAfterSave', array($config));
+
+		return $result;
 	}
 
 	/**
@@ -410,6 +416,8 @@ class ConfigModelApplication extends ConfigModelForm
 	 */
 	public function removeroot()
 	{
+		$dispatcher = JEventDispatcher::getInstance();
+
 		// Get the previous configuration.
 		$prev = new JConfig;
 		$prev = ArrayHelper::fromObject($prev);
@@ -419,7 +427,12 @@ class ConfigModelApplication extends ConfigModelForm
 		$config = new Registry($prev);
 
 		// Write the configuration file.
-		return $this->writeConfigFile($config);
+		$result = $this->writeConfigFile($config);
+
+		// Trigger the after save event.
+		$dispatcher->trigger('onApplicationAfterSave', array($config));
+
+		return $result;
 	}
 
 	/**
