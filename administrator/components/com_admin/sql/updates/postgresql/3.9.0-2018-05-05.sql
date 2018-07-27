@@ -52,9 +52,9 @@ SELECT setval('#__action_logs_extensions_id_seq', 18, false);
 -- --------------------------------------------------------
 
 --
--- Table: #__action_logs_tables_data
+-- Table: #__action_log_config
 --
-CREATE TABLE "#__action_logs_tables_data" (
+CREATE TABLE "#__action_log_config" (
   "id" serial NOT NULL,
   "type_title" varchar(255) NOT NULL DEFAULT '',
   "type_alias" varchar(255) NOT NULL DEFAULT '',
@@ -66,9 +66,9 @@ CREATE TABLE "#__action_logs_tables_data" (
 );
 
 --
--- Dumping data for table #__action_logs_tables_data
+-- Dumping data for table #__action_log_config
 --
-INSERT INTO "#__action_logs_tables_data" ("id", "type_title", "type_alias", "id_holder", "table_name", "text_prefix") VALUES
+INSERT INTO "#__action_log_config" ("id", "type_title", "type_alias", "id_holder", "table_name", "text_prefix") VALUES
 (1, 'article', 'com_content.article', 'id' ,'title' , '#__content', 'PLG_ACTIONLOG_JOOMLA'),
 (2, 'article', 'com_content.form', 'id', 'title' , '#__content', 'PLG_ACTIONLOG_JOOMLA'),
 (3, 'banner', 'com_banners.banner', 'id' ,'name' , '#__banners', 'PLG_ACTIONLOG_JOOMLA'),
@@ -78,7 +78,7 @@ INSERT INTO "#__action_logs_tables_data" ("id", "type_title", "type_alias", "id_
 (7, 'menu', 'com_menus.menu', 'id' ,'title' , '#__menu_types', 'PLG_ACTIONLOG_JOOMLA'),
 (8, 'menu_item', 'com_menus.item', 'id' , 'title' , '#__menu', 'PLG_ACTIONLOG_JOOMLA'),
 (9, 'newsfeed', 'com_newsfeeds.newsfeed', 'id' ,'name' , '#__newsfeeds', 'PLG_ACTIONLOG_JOOMLA'),
-(10, 'link', 'com_redirect.link', 'id', 'old_url' , '__redirect_links', 'PLG_ACTIONLOG_JOOMLA'),
+(10, 'link', 'com_redirect.link', 'id', 'old_url' , '#__redirect_links', 'PLG_ACTIONLOG_JOOMLA'),
 (11, 'tag', 'com_tags.tag', 'id', 'title' , '#__tags', 'PLG_ACTIONLOG_JOOMLA'),
 (12, 'style', 'com_templates.style', 'id' , 'title' , '#__template_styles', 'PLG_ACTIONLOG_JOOMLA'),
 (13, 'plugin', 'com_plugins.plugin', 'extension_id' , 'name' , '#__extensions', 'PLG_ACTIONLOG_JOOMLA'),
@@ -89,4 +89,4 @@ INSERT INTO "#__action_logs_tables_data" ("id", "type_title", "type_alias", "id_
 (18, 'banner_client', 'com_banners.client', 'id', 'name', '#__banner_clients', 'PLG_ACTIONLOG_JOOMLA');
 
 
-SELECT setval('#__action_logs_tables_data_id_seq', 18, false);
+SELECT setval('#__action_log_config_id_seq', 18, false);
