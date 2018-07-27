@@ -62,7 +62,9 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 					</tr>
 				</tfoot>
 				<tbody>
-					<?php foreach ($this->items as $i => $item) : ?>
+					<?php foreach ($this->items as $i => $item) :
+						// Translate extension name here to load translation files before translating message
+						$extensionName = ActionlogsHelper::translateExtensionName(strtok($item->extension, '.')); ?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
@@ -71,7 +73,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 								<?php echo ActionlogsHelper::getHumanReadableLogMessage($item); ?>
 							</td>
 							<td>
-								<?php echo ActionlogsHelper::translateExtensionName(strtoupper(strtok($this->escape($item->extension), '.'))); ?>
+								<?php echo $this->escape($extensionName); ?>
 							</td>
 							<td>
 								<span class="hasTooltip" title="<?php echo JHtml::_('date', $item->log_date, JText::_('DATE_FORMAT_LC6')); ?>">
