@@ -395,6 +395,14 @@ class ConfigModelApplication extends ConfigModelForm
 		$this->cleanCache('_system', 0);
 		$this->cleanCache('_system', 1);
 
+		$result = $dispatcher->trigger('onApplicationBeforeSave', array($config));
+
+		// Store the data.
+		if (in_array(false, $result, true))
+		{
+			throw new RuntimeException(JText::_('COM_CONFIG_ERROR_UNKNOWN_BEFORE_SAVING'));
+		}
+
 		// Write the configuration file.
 		$result = $this->writeConfigFile($config);
 
@@ -425,6 +433,14 @@ class ConfigModelApplication extends ConfigModelForm
 		// Create the new configuration object, and unset the root_user property
 		unset($prev['root_user']);
 		$config = new Registry($prev);
+
+		$result = $dispatcher->trigger('onApplicationBeforeSave', array($config));
+
+		// Store the data.
+		if (in_array(false, $result, true))
+		{
+			throw new RuntimeException(JText::_('COM_CONFIG_ERROR_UNKNOWN_BEFORE_SAVING'));
+		}
 
 		// Write the configuration file.
 		$result = $this->writeConfigFile($config);
