@@ -24,6 +24,7 @@ JHtml::_('formbehavior.chosen', 'select');
 			</h1>
 		</div>
 	<?php endif; ?>
+	<?php echo JText::_('COM_PRIVACY_REQUEST_HOWTO'); ?>
 	<form action="<?php echo JRoute::_('index.php?option=com_privacy&task=request.submit'); ?>" method="post" class="form-validate form-horizontal well">
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<fieldset>

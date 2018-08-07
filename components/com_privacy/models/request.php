@@ -62,9 +62,26 @@ class PrivacyModelRequest extends JModelAdmin
 		// Is the user authenticated? Add the user ID to the data
 		$user = JFactory::getUser();
 
-		if (!$user->guest)
+		if ($user->guest && !$data['email'])
 		{
-			$data['user_id'] = $user->id;
+			$this->setError(JText::_('COM_PRIVACY_ERROR_NO_MAIL_OR_USER_GIVEN'));
+
+			return false;
+		}
+		else
+		{
+			if (!$user->guest)
+			{
+				if (!$data['email'] && !$user->guest)
+				{
+					$data['email'] = $user->email;
+				}
+
+				if ($data['email'] == $user->email)
+				{
+					$data['user_id'] = $user->id;
+				}
+			}
 		}
 
 		// Search for an open information request matching the email and type

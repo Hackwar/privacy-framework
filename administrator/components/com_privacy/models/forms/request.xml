@@ -6,7 +6,6 @@
 			type="email"
 			label="JGLOBAL_EMAIL"
 			description="COM_PRIVACY_USER_FIELD_EMAIL_DESC"
-			required="true"
 			size="30"
 			validate="email"
 		/>

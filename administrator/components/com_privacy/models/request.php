@@ -389,6 +389,37 @@ class PrivacyModelRequest extends JModelAdmin
 			return false;
 		}
 
+		if (!$validatedData['email'] && !$validatedData['user_id'])
+		{
+			$this->setError(JText::_('COM_PRIVACY_ERROR_NO_USER_OR_EMAIL_GIVEN'));
+
+			return false;
+		}
+
+		if ($validatedData['user_id'])
+		{
+			$user = JFactory::getUser($validatedData['user_id']);
+
+			if (!$user->id)
+			{
+				$this->setError(JText::_('COM_PRIVACY_ERROR_GIVEN_USER_IS_INVALID'));
+
+				return false;
+			}
+
+			if ($validatedData['email'] && $user->email != $validatedData['email'])
+			{
+				$this->setError(JText::_('COM_PRIVACY_ERROR_USER_EMAIL DOES_NOT_EQUAL_GIVEN_EMAIL'));
+
+				return false;
+			}
+
+			if (!$validatedData['email'])
+			{
+				$validatedData['email'] = $user->email;
+			}
+		}
+
 		// The user cannot create a request for their own account
 		if (strtolower(JFactory::getUser()->email) === strtolower($validatedData['email']))
 		{
