@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Consents management model class.
  *
@@ -131,10 +133,79 @@ class PrivacyModelConsents extends JModelList
 			$this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search')
 		);
 
+		$this->setState(
+			'filter.subject',
+			$this->getUserStateFromRequest($this->context . '.filter.subject', 'filter_subject')
+		);
+
 		// Load the parameters.
 		$this->setState('params', JComponentHelper::getParams('com_privacy'));
 
 		// List state information.
 		parent::populateState($ordering, $direction);
+	}
+
+	/**
+	 * Method to invalidate specific consents.
+	 *
+	 * @param   array  $pks  The ids of the consents to invalidate.
+	 *
+	 * @return  boolean  True on success.
+	 */
+	public function invalidate($pks)
+	{
+		// Sanitize the ids.
+		$pks = (array) $pks;
+		$pks = ArrayHelper::toInteger($pks);
+
+		try
+		{
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__privacy_consents'))
+				->set('state = -1')
+				->where('id IN (' . implode(',', $pks) . ')')
+				->where('state = 1');
+			$db->setQuery($query);
+			$db->execute();
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to invalidate a group of specific consents.
+	 *
+	 * @param   array  $subject  The subject of the consents to invalidate.
+	 *
+	 * @return  boolean  True on success.
+	 */
+	public function invalidateAll($subject)
+	{
+		try
+		{
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__privacy_consents'))
+				->set('state = -1')
+				->where('subject = ' . $db->quote($subject))
+				->where('state = 1');
+			$db->setQuery($query);
+			$db->execute();
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		return true;
 	}
 }
