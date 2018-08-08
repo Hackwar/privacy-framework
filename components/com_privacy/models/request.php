@@ -68,19 +68,17 @@ class PrivacyModelRequest extends JModelAdmin
 
 			return false;
 		}
-		else
-		{
-			if (!$user->guest)
-			{
-				if (!$data['email'] && !$user->guest)
-				{
-					$data['email'] = $user->email;
-				}
 
-				if ($data['email'] == $user->email)
-				{
-					$data['user_id'] = $user->id;
-				}
+		if (!$user->guest)
+		{
+			if (!$data['email'] && !$user->guest)
+			{
+				$data['email'] = $user->email;
+			}
+
+			if ($data['email'] == $user->email)
+			{
+				$data['user_id'] = $user->id;
 			}
 		}
 

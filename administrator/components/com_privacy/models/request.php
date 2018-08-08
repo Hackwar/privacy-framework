@@ -407,9 +407,9 @@ class PrivacyModelRequest extends JModelAdmin
 				return false;
 			}
 
-			if ($validatedData['email'] && $user->email != $validatedData['email'])
+			if ($validatedData['email'] && $user->email !== $validatedData['email'])
 			{
-				$this->setError(JText::_('COM_PRIVACY_ERROR_USER_EMAIL DOES_NOT_EQUAL_GIVEN_EMAIL'));
+				$this->setError(JText::_('COM_PRIVACY_ERROR_USER_EMAIL_DOES_NOT_EQUAL_GIVEN_EMAIL'));
 
 				return false;
 			}
