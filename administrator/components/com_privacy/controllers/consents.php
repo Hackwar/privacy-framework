@@ -32,7 +32,7 @@ class PrivacyControllerConsents extends JControllerForm
 
 		if (empty($ids))
 		{
-			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
+			$this->setError(JText::_('JERROR_NO_ITEMS_SELECTED'));
 		}
 		else
 		{
@@ -43,7 +43,7 @@ class PrivacyControllerConsents extends JControllerForm
 			// Publish the items.
 			if (!$model->invalidate($ids))
 			{
-				JError::raiseWarning(500, $model->getError());
+				$this->setError($model->getError());
 			}
 
 			$message = JText::plural('COM_PRIVACY_N_CONSENTS_INVALIDATED', count($ids));
@@ -72,7 +72,7 @@ class PrivacyControllerConsents extends JControllerForm
 		}
 		else
 		{
-			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
+			$this->setError(JText::_('JERROR_NO_ITEMS_SELECTED'));
 		}
 
 		// Get the model.
@@ -82,7 +82,7 @@ class PrivacyControllerConsents extends JControllerForm
 		// Publish the items.
 		if (!$model->invalidateAll($subject))
 		{
-			JError::raiseWarning(500, $model->getError());
+			$this->setError($model->getError());
 		}
 
 		$message = JText::_('COM_PRIVACY_CONSENTS_INVALIDATED_ALL');
