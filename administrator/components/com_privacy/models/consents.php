@@ -163,13 +163,13 @@ class PrivacyModelConsents extends JModelList
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__privacy_consents'))
-				->set('state = -1')
-				->where('id IN (' . implode(',', $pks) . ')')
-				->where('state = 1');
+				->set($db->quoteName('state') . ' = -1')
+				->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')')
+				->where($db->quoteName('state') . ' = 1');
 			$db->setQuery($query);
 			$db->execute();
 		}
-		catch (Exception $e)
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -193,13 +193,13 @@ class PrivacyModelConsents extends JModelList
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__privacy_consents'))
-				->set('state = -1')
-				->where('subject = ' . $db->quote($subject))
-				->where('state = 1');
+				->set($db->quoteName('state') . ' = -1')
+				->where($db->quoteName('subject') . ' = ' . $db->quote($subject))
+				->where($db->quoteName('state') . ' = 1');
 			$db->setQuery($query);
 			$db->execute();
 		}
-		catch (Exception $e)
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			$this->setError($e->getMessage());
 
