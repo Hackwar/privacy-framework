@@ -1,0 +1,1 @@
+ALTER TABLE [#__privacy_consents] ADD [status] [smallint] NOT NULL DEFAULT '1';
