@@ -267,7 +267,14 @@ class PlgActionlogJoomla extends JPlugin
 			$messageLanguageKey = $defaultLanguageKey;
 		}
 
-		$items = ActionlogsHelper::getDataByPks($pks, $params->title_holder, $params->id_holder, $params->table_name);
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName(array($params->title_holder, $params->id_holder)))
+			->from($db->quoteName($params->table_name))
+			->where($db->quoteName($params->id_holder) . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
+		$db->setQuery($query);
+
+		$items = $db->loadObjectList($params->id_holder);
 
 		$messages = array();
 
