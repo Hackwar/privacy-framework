@@ -274,7 +274,14 @@ class PlgActionlogJoomla extends JPlugin
 			->where($db->quoteName($params->id_holder) . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
 		$db->setQuery($query);
 
-		$items = $db->loadObjectList($params->id_holder);
+		try
+		{
+			$items = $db->loadObjectList($params->id_holder);
+		}
+		catch (RuntimeException $e)
+		{
+			$items = array();
+		}
 
 		$messages = array();
 
