@@ -33,6 +33,7 @@ class PrivacyModelConsents extends JModelList
 				'id', 'a.id', 'a.user_id',
 				'created', 'a.created',
 				'username', 'u.username',
+				'state', 'a.state'
 			);
 		}
 
@@ -78,6 +79,13 @@ class PrivacyModelConsents extends JModelList
 				$search = $db->quote('%' . $db->escape($search, true) . '%');
 				$query->where('(' . $db->quoteName('u.username') . ' LIKE ' . $search . ')');
 			}
+		}
+
+		$state = $this->getState('filter.state');
+
+		if ($state != '')
+		{
+			$query->where($db->quoteName('a.state') . ' = ' . (int) $state);
 		}
 
 		// Handle the list ordering.
@@ -136,6 +144,11 @@ class PrivacyModelConsents extends JModelList
 		$this->setState(
 			'filter.subject',
 			$this->getUserStateFromRequest($this->context . '.filter.subject', 'filter_subject')
+		);
+
+		$this->setState(
+			'filter.state',
+			$this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state')
 		);
 
 		// Load the parameters.
