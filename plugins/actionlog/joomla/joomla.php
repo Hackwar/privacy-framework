@@ -267,7 +267,21 @@ class PlgActionlogJoomla extends JPlugin
 			$messageLanguageKey = $defaultLanguageKey;
 		}
 
-		$items = ActionlogsHelper::getDataByPks($pks, $params->title_holder, $params->id_holder, $params->table_name);
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName(array($params->title_holder, $params->id_holder)))
+			->from($db->quoteName($params->table_name))
+			->where($db->quoteName($params->id_holder) . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
+		$db->setQuery($query);
+
+		try
+		{
+			$items = $db->loadObjectList($params->id_holder);
+		}
+		catch (RuntimeException $e)
+		{
+			$items = array();
+		}
 
 		$messages = array();
 
@@ -288,6 +302,43 @@ class PlgActionlogJoomla extends JPlugin
 		}
 
 		$this->addLog($messages, $messageLanguageKey, $context);
+	}
+
+	/**
+	 * On Saving application configuration logging method
+	 * Method is called when the application config is being saved
+	 *
+	 * @param   JRegistry  $config  JRegistry object with the new config
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onApplicationAfterSave($config)
+	{
+		$option = $this->app->input->getCmd('option');
+
+		if (!$this->checkLoggable($option))
+		{
+			return;
+		}
+
+		$messageLanguageKey = strtoupper('PLG_ACTIONLOG_JOOMLA_APPLICATION_CONFIG_UPDATED');
+		$action             = 'update';
+
+		$user = JFactory::getUser();
+
+		$message = array(
+			'action'         => $action,
+			'type'           => strtoupper('PLG_ACTIONLOG_JOOMLA_TYPE_APPLICATION_CONFIG'),
+			'extension_name' => 'com_config.application',
+			'itemlink'       => 'index.php?option=com_config',
+			'userid'         => $user->id,
+			'username'       => $user->username,
+			'accountlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+		);
+
+		$this->addLog(array($message), $messageLanguageKey, 'com_config.application');
 	}
 
 	/**
