@@ -2380,7 +2380,7 @@ CREATE TABLE "#__privacy_requests" (
   "id" int IDENTITY(1,1) NOT NULL,
   "email" nvarchar(100) NOT NULL DEFAULT '',
   "requested_at" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
-  "status" smallint NOT NULL,
+  "state" smallint NOT NULL,
   "request_type" nvarchar(25) NOT NULL DEFAULT '',
   "confirm_token" nvarchar(100) NOT NULL DEFAULT '',
   "confirm_token_created_at" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',

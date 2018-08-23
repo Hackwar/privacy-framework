@@ -610,8 +610,8 @@ class PlgSystemPrivacyconsent extends JPlugin
 		$period = '-' . $expire;
 
 		$db    = $this->db;
-		$query = $db->getQuery(true)
-			->select($db->quoteName(array('id', 'user_id')))
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName(array('id', 'user_id')))
 			->from($db->quoteName('#__privacy_consents'))
 			->where($query->dateAdd($now, $period, 'DAY') . ' > ' . $db->quoteName('created'))
 			->where($db->quoteName('subject') . ' = ' . $query->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
