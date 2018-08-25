@@ -2380,7 +2380,7 @@ CREATE TABLE "#__privacy_requests" (
   "id" int IDENTITY(1,1) NOT NULL,
   "email" nvarchar(100) NOT NULL DEFAULT '',
   "requested_at" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
-  "state" smallint NOT NULL,
+  "status" smallint NOT NULL,
   "request_type" nvarchar(25) NOT NULL DEFAULT '',
   "confirm_token" nvarchar(100) NOT NULL DEFAULT '',
   "confirm_token_created_at" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
@@ -2402,7 +2402,7 @@ WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, O
 CREATE TABLE "#__privacy_consents" (
   "id" int IDENTITY(1,1) NOT NULL,
   "user_id" bigint NOT NULL DEFAULT 0,
-  "status" smallint NOT NULL DEFAULT 1,
+  "state" smallint NOT NULL DEFAULT 1,
   "created" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
   "subject" nvarchar(255) NOT NULL DEFAULT '',
   "body" nvarchar(max) NOT NULL,
